@@ -52,6 +52,7 @@ export default class AppController {
     await this.openWindow()
 
     startMonitor()
+    this.registerDeepLink()
   }
 
   /**
