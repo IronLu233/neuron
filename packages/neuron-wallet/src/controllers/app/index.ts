@@ -1,6 +1,6 @@
 import path from 'path'
 import { t } from 'i18next'
-import { app as electronApp, BrowserWindow, nativeImage } from 'electron'
+import { app as electronApp, BrowserWindow, nativeImage, dialog } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 
 import env from 'env'
@@ -165,6 +165,24 @@ export default class AppController {
 
     return new Promise<void>(resolve => {
       this.mainWindow?.on('show', () => resolve())
+    })
+  }
+
+  public registerDeepLink = () => {
+    if (process.defaultApp) {
+      if (process.argv.length >= 2) {
+        app.setAsDefaultProtocolClient('neuron', process.execPath, [path.resolve(process.argv[1])])
+      } else {
+        app.setAsDefaultProtocolClient('neuron')
+      }
+    }
+  }
+
+  public responseDeepLink = (_event: Electron.Event, _url: string) => {
+    dialog.showMessageBox({
+      type: 'info',
+      title: 'Wallet Connect Request',
+      message: 'DApp Foo want to connect to your wallet'
     })
   }
 

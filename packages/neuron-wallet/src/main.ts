@@ -30,6 +30,7 @@ if (singleInstanceLock) {
       app.quit()
     }
   })
+  app.on('open-url', appController.responseDeepLink)
   process.on('uncaughtException', (err, origin) => {
     logger.error(`UncaughtException:\tCaught exception: `, err)
     logger.error(`UncaughtException:\tException origin: `, origin)
